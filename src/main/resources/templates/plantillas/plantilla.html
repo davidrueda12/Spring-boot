@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>Plantilla</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+    <header th:fragment="header">
+        <nav class="navbar navbar-expand-sm fixed-top navbar-light" style="background-color: #4B8497;">
+            <div class="container-fluid">
+                <a th:href="@{/}" class="navbar-brand text-center" th:text="#{plantilla.titulo}">Lista de personas</a>
+                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarScroll">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav ma-auto mb-2 mb-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                        <li class="nav-item">
+                            <a th:href="@{/}" class="nav-link active text-center" th:text="#{barra.titulo}">Inicio</a>
+                        </li>
+                    <ul/>
+                </div>
+                <div>
+                    <ul sec:authorize="isAuthenticated()" class="navbar-nav mb-auto">
+                        <li class="nav-item mr-3">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-user"></i>
+                                <span th:text="#{barra.bienvenido}">Bienvenido</span>
+                                <span sec:authentication="name">Usuario</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="POST" th:action="@{/logout}">
+                                <a href="#" onclick="this.parentNode.submit();" class="nav-link">
+                                    <i class="fas fa-user-times">[[#{barra.salir}]]</i>
+                                </a>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    </header>
+    <footer th:fragment="footer">
+        <div>
+            <a th:href="@{/(lang=es)}">ES</a> I
+            <a th:href="@{/(lang=en)}">EN</a> I
+        </div>
+        <span>Realizado por <a href="https://www.linkedin.com/in/davidruedacardenas/" target="_blank">David Rueda</a></span>
+        <form method="POST" th:action="@{/logout}">
+            <b>Usuario: </b><span sec:authentication="name">Usuario conectado</span>
+            <button type="submit">Log out</button>
+        </form>
+    </footer>
+</body>
+</html>

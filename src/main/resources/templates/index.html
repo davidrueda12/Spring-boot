@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://thymeleaf.org/extras/spring-security">
+    <head th:replace="/plantillas/plantilla :: head">
+        <title>Inicio</title>
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h1>Bienvenido</h1>
+        <header th:replace="plantillas/plantilla :: header">
+        </header>
+        <h1 th:text="#{nuevo.titulo}">nuevo titulo</h1>
+        <h1>[[#{descripcion.tabla}]]</h1>
+        <div th:if="${personas != null and !personas.empty}">
+            <table border="1">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+                </tr>
+                <tr th:each="persona : ${personas}">
+                    <td th:text="${persona.nombre}">Mostrar Nombre</td>
+                    <td th:text="${persona.apellido}">Mostrar Apellido</td>
+                    <td th:text="${persona.email}">Mostrar Email</td>
+                    <td th:text="${persona.telefono}">Mostrar Teléfono</td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')"> <a th:href="@{/editar/} + ${persona.idPersona}" th:text="Editar"></a></td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')"> <a th:href="@{/eliminar(idPersona=${persona.idPersona})}" th:text="Eliminar"></a></td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${personas == null or personas.empty}">
+            La lista de personas está vacía
+        </div>
+        <br/>
+        <a th:href="@{/agregar}">Agregar Persona</a>
+        <br/>
+        <footer th:replace="plantillas/plantilla :: footer"></footer>
+    </body>
+</html>
